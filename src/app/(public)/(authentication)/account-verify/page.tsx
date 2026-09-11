@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const AccountVerifyPage = () => {
-  return (
-    <div>Account Verify Page</div>
-  )
-}
+  return <div>Account Verify Page</div>;
+};
 
-export default AccountVerifyPage
+export default AccountVerifyPage;
