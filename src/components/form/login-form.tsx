@@ -3,13 +3,22 @@
 import { useForm } from "@tanstack/react-form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from "../ui/field";
+import { loginSchema } from "@/validation";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { loginSchema } from "@/validation/auth.validation";
 import { useLogin } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
+import { GoogleLogin } from "@react-oauth/google";
+import Link from "next/link";
+import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { SpinnerCustom } from "../ui/spinner";
 
 export default function LoginForm() {
@@ -35,15 +44,15 @@ export default function LoginForm() {
       login(loginData, {
         onSuccess: (res) => {
           toast.add({
-            title: "Login Successfully",
-            description: "Welcome Back",
+            title: "Login Success",
+            description: "Welcome back",
             type: "success",
           });
           router.push("/");
         },
         onError: (err) => {
           toast.add({
-            title: "Login Failed",
+            title: "Authorization failure",
             description:
               err.message || "Something went wrong. Please try again",
             type: "error",
@@ -134,7 +143,7 @@ export default function LoginForm() {
           <Button disabled={loginPending} type="submit">
             {loginPending ? (
               <>
-                <SpinnerCustom /> Submitting
+                <SpinnerCustom /> submitting
               </>
             ) : (
               "Submit"
@@ -142,6 +151,20 @@ export default function LoginForm() {
           </Button>
         </FieldGroup>
       </form>
+
+      <FieldSeparator>Or continue with</FieldSeparator>
+
+      <GoogleLoginComponent />
+
+      <div className="text-center text-sm text-muted-foreground">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium underline underline-offset-4 hover:text-primary"
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 }

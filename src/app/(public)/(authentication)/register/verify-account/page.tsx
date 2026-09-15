@@ -1,29 +1,35 @@
-import LoginForm from "@/components/form/login-form";
-import Link from "next/link";
-import Image from "next/image"; // Added for optimization
 import Logo from "@/assets/svg/Logo";
+import VerifyAccountForm from "@/components/form/verify-account-form";
+import Image from "next/image";
 
-export default function LoginPage() {
+import Link from "next/link";
+import { Suspense } from "react";
+
+export default function VerifyAccountPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <Link href="/" className="flex items-center gap-2 font-medium">
-            <Logo />
-            PH Healthcare
+            <div className="flex items-center gap-2">
+              <Logo />
+              <span>PH Healthcare</span>
+            </div>
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <Suspense fallback={<p>Loading...</p>}>
+              <VerifyAccountForm />
+            </Suspense>
           </div>
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
         {/* Next.js Optimized Image component */}
         <Image
-          src="/login.jpg"
-          alt="Login illustration"
+          src="/register.jpg"
+          alt="Register illustration"
           fill
           priority // Loads image instantly to improve LCP core web vital
           className="object-cover dark:brightness-[0.2] dark:grayscale"
