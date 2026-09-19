@@ -16,7 +16,6 @@ const verificationStatus :["ALL" | DoctorVerificationStatus, string][] = [
 
 export default function DoctorApprovalTabs() {
   const [tab, setTab] = useState<"ALL" | DoctorVerificationStatus>("ALL")
-
   const queryParams: DoctorParams = {
     page: 1,
     limit: 10,
