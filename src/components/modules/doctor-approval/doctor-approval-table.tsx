@@ -7,24 +7,44 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DoctorReviewSheet from "./doctor-review-sheet";
+import { useSuspenseGetAllDoctors } from "@/hooks";
+import { DoctorParams } from "@/types";
 
-export default function DoctorApprovalTable() {
+interface Props extends DoctorParams {}
+
+export default function DoctorApprovalTable({...params}:Props) {
+
+  const {data, isPending} = useSuspenseGetAllDoctors(params);
+  
+  const doctors = data?.data;
+  
+
   return (
     <div className="border rounded-lg">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>License No.</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Contract No.</TableHead>
+            <TableHead>Specialization</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">Mir Hussain</TableCell>
+          {doctors.map((doctor)=>(
+          <TableRow key={doctor.id}>
+            <TableCell>{doctor.name}</TableCell>
+            <TableCell>{doctor.licenseNumber}</TableCell>
+            <TableCell>{doctor.email}</TableCell>
+            <TableCell>{doctor.contactNumber ? doctor.contactNumber : "-"}</TableCell>
+            <TableCell>{doctor.specialization}</TableCell>
             <TableCell className="text-right">
               <DoctorReviewSheet />
             </TableCell>
           </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
