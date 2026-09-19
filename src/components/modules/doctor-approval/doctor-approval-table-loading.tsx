@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/table";
 
 
-
 export default function DoctorApprovalTableLoading() {
   return (
     <div className="border rounded-lg">
