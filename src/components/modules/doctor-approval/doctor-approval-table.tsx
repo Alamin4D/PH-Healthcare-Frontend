@@ -9,15 +9,17 @@ import {
 import DoctorReviewSheet from "./doctor-review-sheet";
 import { useSuspenseGetAllDoctors } from "@/hooks";
 import { DoctorParams } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Dispatch, SetStateAction } from "react";
 
-interface Props extends DoctorParams {}
+interface Props extends DoctorParams {
+  handleReview: Dispatch<SetStateAction<string>>
+}
 
-export default function DoctorApprovalTable({...params}:Props) {
+export default function DoctorApprovalTable({ handleReview, ...params }: Props) {
+  const { data, isPending } = useSuspenseGetAllDoctors(params);
 
-  const {data, isPending} = useSuspenseGetAllDoctors(params);
-  
   const doctors = data?.data;
-  
 
   return (
     <div className="border rounded-lg">
@@ -33,17 +35,19 @@ export default function DoctorApprovalTable({...params}:Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {doctors.map((doctor)=>(
-          <TableRow key={doctor.id}>
-            <TableCell>{doctor.name}</TableCell>
-            <TableCell>{doctor.licenseNumber}</TableCell>
-            <TableCell>{doctor.email}</TableCell>
-            <TableCell>{doctor.contactNumber ? doctor.contactNumber : "-"}</TableCell>
-            <TableCell>{doctor.specialization}</TableCell>
-            <TableCell className="text-right">
-              <DoctorReviewSheet />
-            </TableCell>
-          </TableRow>
+          {doctors.map((doctor) => (
+            <TableRow key={doctor.id}>
+              <TableCell>{doctor.name}</TableCell>
+              <TableCell>{doctor.licenseNumber}</TableCell>
+              <TableCell>{doctor.email}</TableCell>
+              <TableCell>
+                {doctor.contactNumber ? doctor.contactNumber : "-"}
+              </TableCell>
+              <TableCell>{doctor.specialization}</TableCell>
+              <TableCell className="text-right">
+                <Button variant="outline" onClick={()=> handleReview(doctor.id)}>Review</Button>
+              </TableCell>
+            </TableRow>
           ))}
         </TableBody>
       </Table>
