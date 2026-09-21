@@ -13,10 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 
 interface Props extends DoctorParams {
-  handleReview: Dispatch<SetStateAction<string>>
+  handleReview: Dispatch<SetStateAction<string>>;
 }
 
-export default function DoctorApprovalTable({ handleReview, ...params }: Props) {
+export default function DoctorApprovalTable({
+  handleReview,
+  ...params
+}: Props) {
   const { data, isPending } = useSuspenseGetAllDoctors(params);
 
   const doctors = data?.data;
@@ -45,7 +48,19 @@ export default function DoctorApprovalTable({ handleReview, ...params }: Props) 
               </TableCell>
               <TableCell>{doctor.specialization}</TableCell>
               <TableCell className="text-right">
-                <Button variant="outline" onClick={()=> handleReview(doctor.id)}>Review</Button>
+                {doctor.user.emailVerified ? (
+                  <Button
+                    disabled={doctor.verificationStatus !== "PENDING"}
+                    variant="outline"
+                    onClick={() => handleReview(doctor.id)}
+                  >
+                    Review
+                  </Button>
+                ) : (
+                  <Button disabled variant="outline">
+                    Not Verified
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
