@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -9,18 +9,40 @@ import {
   PaginationPrevious,
 } from "./pagination";
 
-const getButtonArray = (totalPages: number) => {
-  return Array.from({ length: totalPages }, (_, index) => index + 1);
+const getButtonArray = (totalPages: number, page: number) : (number | "ellipsis")[] => {
+
+  if(page <= 7){
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+  
+  
+  if(page <= 4){
+    return [1, 2, 3, 4, 5, "ellipsis", totalPages]
+  }
+
+  if(page >= totalPages - 3){
+    return [1, "ellipsis", totalPages -4, totalPages-3, totalPages-2, totalPages-1, totalPages]
+  }
+
+  return [1, "ellipsis", page - 1, page, page + 1, "ellipsis", totalPages ]
 };
 
-const TablePagination = () => {
-  const [page, setPage] = useState(1);
-  console.log(page);
-  const totalPages = 7;
+interface Props {
+  totalPages: number
+  handlePageChange: Dispatch<SetStateAction<number>>;
+  page: number
+}
+
+const TablePagination = ({totalPages, handlePageChange, page}:Props) => {
+  
 
   const goToPage = (page: number) => {
-    setPage(page);
+    handlePageChange(page);
   };
+
+  if(totalPages <= 1){
+    return null
+  }
 
   return (
     <Pagination>
@@ -34,18 +56,22 @@ const TablePagination = () => {
             }
           />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        {getButtonArray(totalPages).map((item) => (
+        {getButtonArray(totalPages, page).map((item, index) => 
+          item === "ellipsis" ? (
+          <PaginationEllipsis key={`ellipsis${// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+index}`}/>
+        )
+        :
+        (
           <PaginationLink
-            onClick={() => setPage(item)}
+            onClick={() => handlePageChange(item)}
             isActive={page === item}
             key={item}
           >
             {item}
           </PaginationLink>
-        ))}
+        )
+        )}
         <PaginationItem>
           <PaginationNext
             onClick={() => goToPage(page + 1)}
