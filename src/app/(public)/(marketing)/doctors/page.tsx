@@ -1,5 +1,4 @@
 import PublicDoctorList from "@/components/modules/doctors/doctor-list";
-import DoctorList from "@/components/modules/doctors/doctor-list";
 
 export default function page() {
   return (
