@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image"; // Added for optimization
 import Logo from "@/assets/svg/Logo";
 
+
 export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
