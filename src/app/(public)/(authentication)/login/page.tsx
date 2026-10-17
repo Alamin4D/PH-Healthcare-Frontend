@@ -1,6 +1,6 @@
 import LoginForm from "@/components/form/login-form";
 import Link from "next/link";
-import Image from "next/image"; // Added for optimization
+import Image from "next/image";
 import Logo from "@/assets/svg/Logo";
 
 
