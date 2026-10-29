@@ -26,7 +26,7 @@ export default function LoginPage() {
           src="/login.jpg"
           alt="Login illustration"
           fill
-          priority // Loads image instantly to improve LCP core web vital
+          priority
           className="object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
