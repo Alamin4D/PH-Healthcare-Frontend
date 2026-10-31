@@ -28,7 +28,7 @@ export default function RegisterPage() {
           src="/register.jpg"
           alt="Register illustration"
           fill
-          priority // Loads image instantly to improve LCP core web vital
+          priority
           className="object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
